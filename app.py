@@ -75,7 +75,7 @@ def main():
     st.write(seasonal_stats)
 
     st.subheader("Анализ временных рядов")
-    st.line_chart(analyzed_data[['timestamp', 'temperature', 'rolling mean']].set_index('timestamp'))
+    st.line_chart(analyzed_data[['timestamp', 'temperature', 'rollingmean']].set_index('timestamp'))
 
     st.subheader("Мониторинг текущей температуры")
     api_key = st.text_input("Введите ключ", "")

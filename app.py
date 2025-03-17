@@ -26,11 +26,13 @@ seasonal_temperatures = {
     "Mexico City": {"winter": 12, "spring": 18, "summer": 20, "autumn": 15},
 }
 
+# Сопоставление месяцев с сезонами
 month_to_season = {12: "winter", 1: "winter", 2: "winter",
                    3: "spring", 4: "spring", 5: "spring",
                    6: "summer", 7: "summer", 8: "summer",
                    9: "autumn", 10: "autumn", 11: "autumn"}
 
+# Генерация данных о температуре
 def generate_realistic_temperature_data(cities, num_years=10):
     dates = pd.date_range(start="2010-01-01", periods=365 * num_years, freq="D")
     data = []
@@ -46,7 +48,7 @@ def generate_realistic_temperature_data(cities, num_years=10):
     df['season'] = df['timestamp'].dt.month.map(lambda x: month_to_season[x])
     return df
 
-#для получения текущей температуры
+# Для получения текущей температуры
 def get_temperature(api_key, city):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
     response = requests.get(url)

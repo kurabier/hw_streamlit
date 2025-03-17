@@ -67,9 +67,9 @@ def main():
     st.title("Анализ температурных данных")
     
     cities = list(seasonal_temperatures.keys())
-    df = generate_realistic_temperature_data(cities)
+    df = generate_real_temperature_data(cities)
 
-    seasonal_stats, analyzed_data = analyze_temperature_data(df)
+    seasonal_stats, analyzed_data = analyze_temp_data(df)
     
     st.subheader("Статистика по сезонам")
     st.write(seasonal_stats)

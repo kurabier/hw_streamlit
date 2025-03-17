@@ -40,7 +40,7 @@ def generate_realistic_temperature_data(cities, num_years=10):
             season = month_to_season[date.month]
             mean_temp = seasonal_temperatures[city][season]
             temperature = np.random.normal(loc=mean_temp, scale=5)
-            data.append({"Город": city, "Временная шкала": date, "Температура": temperature})
+            data.append({"city": city, "timestape": date, "temperature": temperature})
 
     df = pd.DataFrame(data)
     df['season'] = df['timestamp'].dt.month.map(lambda x: month_to_season[x])

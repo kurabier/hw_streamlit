@@ -26,10 +26,10 @@ seasonal_temperatures = {
     "Mexico City": {"winter": 12, "spring": 18, "summer": 20, "autumn": 15},
 }
 
-month_to_season = {12: "Зима", 1: "Зима", 2: "Зима",
-                   3: "Весна", 4: "Весна", 5: "Весна",
-                   6: "Лето", 7: "Лето", 8: "Лето",
-                   9: "Осень", 10: "Осень", 11: "Осень"}
+month_to_season = {12: "winter", 1: "winter", 2: "winter",
+                   3: "spring", 4: "spring", 5: "spring",
+                   6: "summer", 7: "summer", 8: "summer",
+                   9: "autumn", 10: "autumn", 11: "autumn"}
 
 def generate_realistic_temperature_data(cities, num_years=10):
     dates = pd.date_range(start="2010-01-01", periods=365 * num_years, freq="D")

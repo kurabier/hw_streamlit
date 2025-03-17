@@ -40,7 +40,7 @@ def generate_realistic_temperature_data(cities, num_years=10):
             season = month_to_season[date.month]
             mean_temp = seasonal_temperatures[city][season]
             temperature = np.random.normal(loc=mean_temp, scale=5)
-            data.append({"city": city, "timestape": date, "temperature": temperature})
+            data.append({"city": city, "timestamp": date, "temperature": temperature})
 
     df = pd.DataFrame(data)
     df['season'] = df['timestamp'].dt.month.map(lambda x: month_to_season[x])
@@ -95,11 +95,12 @@ def main():
             normal_std = 5
             normal_range = (normal_mean - 2 * normal_std, normal_mean + 2 * normal_std)
 
-            st.write(f"Текущая температура в {city}: {current_temp}°C")
-            if normal_range[0] <= current_temp <= normal_range[1]:
-                st.write("Температура в пределах нормы")
-            else:
-                st.write("Температура аномальная")
+            if response.status_code != 401:
+                st.write(f"Текущая температура в {city}: {current_temp}°C")
+                if normal_range[0] <= current_temp <= normal_range[1]:
+                    st.write("Температура в пределах нормы")
+                else:
+                    st.write("Температура аномальная")
 
 if __name__ == "__main__":
     main()

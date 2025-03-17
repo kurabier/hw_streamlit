@@ -85,8 +85,8 @@ def main():
         current_temp = get_temperature(api_key, city)
         if current_temp is not None:
             season = month_to_season[datetime.datetime.now().month]
-            normal_mean = seasonal_temperatures[city][season][mean]
-            normal_std = seasonal_temperatures[city][season][std]
+            normal_mean = seasonal_temperatures[city][season]["mean"]
+            normal_std = seasonal_temperatures[city][season]["std"]
             normal_range = (normal_mean - 2 * normal_std, normal_mean + 2 * normal_std)
 
             st.write(f"Текущая температура в {city}: {current_temp}°C")
@@ -94,6 +94,8 @@ def main():
                 st.write("Температура в пределах нормы")
             else:
                 st.write("Температура аномальная")
+        else:
+            st.write("Не удалось получить данные о температуре.")
 
 if __name__ == "__main__":
     main()

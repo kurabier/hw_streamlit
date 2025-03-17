@@ -3,9 +3,7 @@ import pandas as pd
 import numpy as np
 import requests
 import datetime
-from scipy import stats
 
-# Реальные средние температуры для городов по сезонам
 seasonal_temperatures = {
     "New York": {"winter": 0, "spring": 10, "summer": 25, "autumn": 15},
     "London": {"winter": 5, "spring": 11, "summer": 18, "autumn": 12},
@@ -44,8 +42,8 @@ def generate_realistic_temperature_data(cities, num_years=10):
     df['season'] = df['timestamp'].dt.month.map(lambda x: month_to_season[x])
     return df
 
-# Функция для получения текущей температуры
-def get_current_temperature(api_key, city):
+#для получения текущей температуры
+def get_temperature(api_key, city):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
     response = requests.get(url)
     if response.status_code == 200:
@@ -54,8 +52,7 @@ def get_current_temperature(api_key, city):
     else:
         return None
 
-# Анализ временных рядов
-def analyze_temperature_data(df):
+def analyze_temp_data(df):
     seasonal_stats = df.groupby('season')['temperature'].agg(['mean', 'std']).reset_index()
 
     df['rolling_mean'] = df['temperature'].rolling(window=30).mean()
@@ -85,7 +82,7 @@ def main():
     city = st.selectbox("Выберите город", cities)
 
     if st.button("Получить текущую температуру"):
-        current_temp = get_current_temperature(api_key, city)
+        current_temp = get_temperature(api_key, city)
         if current_temp is not None:
             season = month_to_season[datetime.datetime.now().month]
             normal_mean = seasonal_temperatures[city][season]["mean"]
@@ -97,8 +94,6 @@ def main():
                 st.write("Температура в пределах нормы.")
             else:
                 st.write("Температура является аномальной.")
-        else:
-            st.write("Не удалось получить данные о температуре.")
 
 if __name__ == "__main__":
     main()

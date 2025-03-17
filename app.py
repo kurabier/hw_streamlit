@@ -49,6 +49,8 @@ def get_temperature(api_key, city):
     if response.status_code == 200:
         data = response.json()
         return data['main']['temp']
+    elif response.status_code == 401:
+        return {"error": "Invalid API key. Please see https://openweathermap.org/faq#error401 for more info."}
     else:
         return None
 
@@ -78,7 +80,7 @@ def main():
     st.line_chart(analyzed_data[['timestamp', 'temperature', 'rolling_mean']].set_index('timestamp'))
 
     st.subheader("Мониторинг текущей температуры")
-    api_key = st.text_input("Введите ключ", "")
+    api_key = st.text_input("Введите API ключ (c41bdb2001ec4723b2530c7d788d2e64)", "")
     city = st.selectbox("Выберите город", cities)
 
     if st.button("Получить текущую температуру"):

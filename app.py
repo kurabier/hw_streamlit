@@ -78,7 +78,7 @@ def main():
     st.line_chart(analyzed_data[['timestamp', 'temperature', 'rolling_mean']].set_index('timestamp'))
 
     st.subheader("Мониторинг текущей температуры")
-    api_key = st.text_input(c41bdb2001ec4723b2530c7d788d2e64, "")
+    api_key = st.text_input("c41bdb2001ec4723b2530c7d788d2e64", "")
     city = st.selectbox("Выберите город", cities)
 
     if st.button("Получить текущую температуру"):

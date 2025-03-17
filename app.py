@@ -75,7 +75,7 @@ def main():
     st.write(seasonal_stats)
 
     st.subheader("Анализ временных рядов")
-    st.line_chart(analyzed_data[['timestamp', 'temperature', 'rolling_mean']].set_index('timestamp'))
+    st.line_chart(analyzed_data[['Временная шкала', 'Температура', 'Скользящее среднее']].set_index('timestamp'))
 
     st.subheader("Мониторинг текущей температуры")
     api_key = st.text_input("Введите ключ", "")
@@ -91,9 +91,9 @@ def main():
 
             st.write(f"Текущая температура в {city}: {current_temp}°C")
             if normal_range[0] <= current_temp <= normal_range[1]:
-                st.write("Температура в пределах нормы.")
+                st.write("Температура в пределах нормы")
             else:
-                st.write("Температура является аномальной.")
+                st.write("Температура аномальная")
 
 if __name__ == "__main__":
     main()

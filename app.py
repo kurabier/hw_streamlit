@@ -4,6 +4,10 @@ import numpy as np
 import requests
 import datetime
 
+#Сразу отвечая на вопрос, так как запросы к API небольшие, то как будто лучше использовать синхронные методы
+#но из-за этого, как понимаю, прежде, чем вбить api код и получить мониторинг текущей температуры, 
+#мы сначала ждем выполнения анализа временных рядов
+
 seasonal_temperatures = {
     "New York": {"winter": 0, "spring": 10, "summer": 25, "autumn": 15},
     "London": {"winter": 5, "spring": 11, "summer": 18, "autumn": 12},
@@ -22,10 +26,10 @@ seasonal_temperatures = {
     "Mexico City": {"winter": 12, "spring": 18, "summer": 20, "autumn": 15},
 }
 
-month_to_season = {12: "winter", 1: "winter", 2: "winter",
-                   3: "spring", 4: "spring", 5: "spring",
-                   6: "summer", 7: "summer", 8: "summer",
-                   9: "autumn", 10: "autumn", 11: "autumn"}
+month_to_season = {12: "Зима", 1: "Зима", 2: "Зима",
+                   3: "Весна", 4: "Весна", 5: "Весна",
+                   6: "Лето", 7: "Лето", 8: "Лето",
+                   9: "Осень", 10: "Осень", 11: "Осень"}
 
 def generate_realistic_temperature_data(cities, num_years=10):
     dates = pd.date_range(start="2010-01-01", periods=365 * num_years, freq="D")
@@ -36,7 +40,7 @@ def generate_realistic_temperature_data(cities, num_years=10):
             season = month_to_season[date.month]
             mean_temp = seasonal_temperatures[city][season]
             temperature = np.random.normal(loc=mean_temp, scale=5)
-            data.append({"city": city, "timestamp": date, "temperature": temperature})
+            data.append({"Город": city, "Временная шкала": date, "Температура": temperature})
 
     df = pd.DataFrame(data)
     df['season'] = df['timestamp'].dt.month.map(lambda x: month_to_season[x])
@@ -50,7 +54,7 @@ def get_temperature(api_key, city):
         data = response.json()
         return data['main']['temp']
     elif response.status_code == 401:
-        return {"error": "Invalid API key. Please see https://openweathermap.org/faq#error401 for more info."}
+        return {" error": "Invalid API key. Please see https://openweathermap.org/faq#error401 for more info."}
     else:
         return None
 
@@ -91,13 +95,12 @@ def main():
             normal_std = 5
             normal_range = (normal_mean - 2 * normal_std, normal_mean + 2 * normal_std)
 
-            st.write(f"Текущая температура в {city}: {current_temp}°C")
-            if normal_range[0] <= current_temp <= normal_range[1]:
-                st.write("Температура в пределах нормы")
-            else:
-                st.write("Температура аномальная")
-        else:
-            st.write("Не удалось получить данные о температуре.")
+            if response.status_code != 401:
+                st.write(f"Текущая температура в {city}: {current_temp}°C")
+                if normal_range[0] <= current_temp <= normal_range[1]:
+                    st.write("Температура в пределах нормы")
+                else:
+                    st.write("Температура аномальная")
 
 if __name__ == "__main__":
     main()
